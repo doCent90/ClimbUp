@@ -14,7 +14,6 @@ public class Finish : MonoBehaviour
         {
             _isLeftEnter = true;
             FinishGame();
-            Debug.Log("Finish");
         }
 
         if (collision.TryGetComponent(out SuckerRight suckerRight))
