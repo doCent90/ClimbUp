@@ -4,20 +4,24 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Rigidbody))]
 public class SuckerMover : MonoBehaviour
 {
+    [SerializeField] private Material _targetMaterial;
+
     private Camera _camera;
     private Vector3 _offset;
-    private Suckers _suckers;
-    private Rigidbody _rigidbody;
     private Transform _targetTemp;
     private Transform _targetPosition;
+    private Material _originalMaterial;
+    private MeshRenderer _meshRenderer;
     private Transform _originalPosition;
 
+    private bool _isReady = true;
     private float _distanceByScreen;
     private float _distanceBetweenSuckers;
     private int _multyply = 0;
 
     private const float CriticalDistance = 7f;
 
+    public event UnityAction MoveFinished;
     public event UnityAction<Transform> Moved;
 
     public void SetTargetPosition()
@@ -27,7 +31,7 @@ public class SuckerMover : MonoBehaviour
         else
             _multyply = 0;
 
-        if(_multyply % 5 == 0)
+        if(_multyply % 15 == 0 && _isReady)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -58,6 +62,33 @@ public class SuckerMover : MonoBehaviour
 
         if (_multyply > 1000)
             _multyply = 0;
+
+    }
+
+    public void MoveDone()
+    {
+        enabled = false;
+        MoveFinished?.Invoke();
+    }
+
+    private void OnEnable()
+    {
+        _camera = FindObjectOfType<Camera>();
+        _meshRenderer = GetComponentInChildren<MeshRenderer>();
+
+        if(_originalMaterial == null)
+            _originalMaterial = _meshRenderer.sharedMaterial;
+
+        if(_originalMaterial != null)
+            _meshRenderer.sharedMaterial = _originalMaterial;
+
+        _originalPosition = transform;
+        _targetPosition = _originalPosition;
+    }
+
+    private void OnDisable()
+    {
+        _meshRenderer.sharedMaterial = _targetMaterial;
     }
 
     private void Move()
@@ -69,15 +100,5 @@ public class SuckerMover : MonoBehaviour
         transform.position = new Vector3(x, y, z);
 
         Moved?.Invoke(transform);
-    }
-
-    private void OnEnable()
-    {
-        _camera = FindObjectOfType<Camera>();
-        _rigidbody = GetComponent<Rigidbody>();
-        _suckers = GetComponentInParent<Suckers>();
-
-        _originalPosition = transform;
-        _targetPosition = _originalPosition;
     }
 }

@@ -32,6 +32,5 @@ public class HeadMover : MonoBehaviour
     private void Move(Transform transform)
     {
         var tweenLookAt = this.transform.DOLookAt(transform.position, Duration);
-        //this.transform.LookAt(transform);
     }
 }

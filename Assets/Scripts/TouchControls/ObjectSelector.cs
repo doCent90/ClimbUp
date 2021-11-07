@@ -4,6 +4,7 @@ public class ObjectSelector : MonoBehaviour
 {
     private Ray _rayMouse;
     private Camera _camera;
+    private SuckerMover _suckerMover;
 
     private void OnEnable()
     {
@@ -30,9 +31,15 @@ public class ObjectSelector : MonoBehaviour
                     if (rayHit.collider.TryGetComponent(out SuckerMover sucker) && sucker.enabled)
                     {
                         sucker.SetTargetPosition();
+                        _suckerMover = sucker;
                     }                    
                 }
             }
+        }
+
+        if (Input.GetMouseButtonUp(0) && _suckerMover != null && _suckerMover.enabled)
+        {
+            _suckerMover.MoveDone();
         }
     }
 }

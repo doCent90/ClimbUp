@@ -9,8 +9,9 @@ public class Suckers : MonoBehaviour
     private CharacterJoint _characterJointRigth;
 
     private const float Distance = 10f;
-
+    
     public event UnityAction<float> DistaceChanged;
+    public event UnityAction GameOver;
 
     private void OnEnable()
     {
@@ -36,6 +37,7 @@ public class Suckers : MonoBehaviour
             _characterJointLeft.breakForce = 0f;
             _characterJointRigth.breakForce = 0f;
             enabled = false;
+            GameOver?.Invoke();
         }
     }
 }
