@@ -12,6 +12,8 @@ public class ButtonsUI : MonoBehaviour
     [SerializeField] private GameObject _shop;
     [SerializeField] private Button _openShop;
     [SerializeField] private Button _closeShop;
+    [Header("Back Ground Image")]
+    [SerializeField] Image _backGround;
 
     private GameData _gameData;
 
@@ -23,6 +25,7 @@ public class ButtonsUI : MonoBehaviour
     {
         Started?.Invoke();
         _play.gameObject.SetActive(false);
+        _backGround.gameObject.SetActive(false);
     }
 
     public void Restart()
@@ -34,6 +37,7 @@ public class ButtonsUI : MonoBehaviour
     public void ShowRestart()
     {
         _restart.gameObject.SetActive(true);
+        _backGround.gameObject.SetActive(true);
     }
 
     public void Continue()
@@ -45,6 +49,7 @@ public class ButtonsUI : MonoBehaviour
     public void ShowContinue()
     {
         _continue.gameObject.SetActive(true);
+        _backGround.gameObject.SetActive(true);
     }
 
     public void OpenShop()
